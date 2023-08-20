@@ -6,8 +6,11 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
-  highscore: 0
+  highscore: 0,
+  secondsRemaining: null
 };
+
+const SECS_PER_QUESTION = 30;
 
 function reducer(state, action) {
   switch (action.type) {
@@ -20,14 +23,15 @@ function reducer(state, action) {
     };
     case "dataFail": {
         return {
-            ...state,
-            status: 'error'
+          ...state,
+          status: 'error'
         }
     };
     case "start": {
       return {
         ...state, 
-        status: "active"
+        status: "active",
+        secondsRemaining: state.questions.length * SECS_PER_QUESTION
       }
     };
     case "newAnswer": {
@@ -63,13 +67,23 @@ function reducer(state, action) {
         questions: state.questions,
         status: 'ready'
       }
-    }
+    };
+    case "tick": {
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 
+          ? 'finished' 
+          : state.status
+      }
+
+    };
   }
   throw Error("Unknown action: " + action.type);
 }
 
 export function useFetchQuestions() {
-  const [{ questions, status, index, answer, points, highscore }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer, points, highscore, secondsRemaining }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -85,5 +99,5 @@ export function useFetchQuestions() {
     fetchQuestions();
   }, []);
 
-  return { questions, status, index, answer, points, highscore, dispatch }
+  return { questions, status, index, answer, points, highscore, secondsRemaining, dispatch }
 }

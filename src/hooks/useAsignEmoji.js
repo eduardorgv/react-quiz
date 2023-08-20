@@ -11,7 +11,7 @@ export function useAsignEmoji(percentage) {
         setEmoji("🎉");
       } else if (percentage >= 50 && percentage < 80) {
         setEmoji("🙃");
-      } else if (percentage >= 0 && percentage < 50) {
+      } else if (percentage > 0 && percentage < 50) {
         setEmoji("🤨");
       } else if (percentage === 0) {
         setEmoji("🤦🏻");

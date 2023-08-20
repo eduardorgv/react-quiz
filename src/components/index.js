@@ -8,3 +8,4 @@ export * from './Options';
 export * from './NextButton';
 export * from './Progress';
 export * from './FinishedScreen';
+export * from './Timer';

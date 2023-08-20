@@ -8,11 +8,12 @@ import {
   Progress,
   Question,
   StartScreen,
+  Timer,
 } from "./components";
 import { useFetchQuestions } from "./hooks/useFetchQuestions";
 
 function App() {
-  const { questions, status, index, answer, points, highscore, dispatch } = useFetchQuestions();
+  const { questions, status, index, answer, points, highscore, secondsRemaining, dispatch } = useFetchQuestions();
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce((prev, curr) => prev + curr.points, 0);
 
@@ -40,12 +41,15 @@ function App() {
               answer={answer}
               dispatch={dispatch}
             />
-            <NextButton 
-              dispatch={dispatch} 
-              answer={answer} 
-              index={index}
-              numQuestions={numQuestions}
-            />
+            <footer>
+              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
+              <NextButton 
+                dispatch={dispatch} 
+                answer={answer} 
+                index={index}
+                numQuestions={numQuestions}
+              />
+            </footer>
           </>
         )}
         {status === 'finished' && (
