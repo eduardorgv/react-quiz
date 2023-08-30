@@ -1,4 +1,8 @@
-export const NextButton = ({ dispatch, answer, index, numQuestions }) => {
+import { useQuiz } from "../contexts/QuizContext";
+
+export const NextButton = () => {
+  const { dispatch, answer, index, numQuestions } = useQuiz();
+
   if (answer === null) return null;
 
   let dispatchType = "";

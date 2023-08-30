@@ -10,12 +10,10 @@ import {
   StartScreen,
   Timer,
 } from "./components";
-import { useFetchQuestions } from "./hooks/useFetchQuestions";
+import { useQuiz } from "./contexts/QuizContext";
 
 function App() {
-  const { questions, status, index, answer, points, highscore, secondsRemaining, dispatch } = useFetchQuestions();
-  const numQuestions = questions.length;
-  const maxPossiblePoints = questions.reduce((prev, curr) => prev + curr.points, 0);
+  const { status } = useQuiz();
 
   return (
     <div className="app">
@@ -24,42 +22,18 @@ function App() {
       <Main>
         {status === "loading" && <Loader />}
         {status === "error" && <Error />}
-        {status === "ready" && (
-          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
-        )}
+        {status === "ready" && <StartScreen />}
         {status === "active" && (
           <>
-            <Progress 
-              index={index} 
-              numQuestions={numQuestions} 
-              points={points} 
-              maxPossiblePoints={maxPossiblePoints}
-              answer={answer}
-            />
-            <Question
-              questionObj={questions[index]}
-              answer={answer}
-              dispatch={dispatch}
-            />
+            <Progress />
+            <Question />
             <footer>
-              <Timer dispatch={dispatch} secondsRemaining={secondsRemaining} />
-              <NextButton 
-                dispatch={dispatch} 
-                answer={answer} 
-                index={index}
-                numQuestions={numQuestions}
-              />
+              <Timer />
+              <NextButton />
             </footer>
           </>
         )}
-        {status === 'finished' && (
-          <FinishedScreen 
-            points={points} 
-            maxPossiblePoints={maxPossiblePoints} 
-            highscore={highscore}
-            dispatch={dispatch}
-          />
-        )}
+        {status === "finished" && <FinishedScreen />}
       </Main>
     </div>
   );

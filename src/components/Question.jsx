@@ -1,6 +1,9 @@
+import { useQuiz } from "../contexts/QuizContext";
 import { Options } from "./Options";
 
-export const Question = ({ questionObj, answer, dispatch }) => {
+export const Question = () => {
+  const { questions, index } = useQuiz();
+  const questionObj = questions[index];
   const { question, options, correctOption } = questionObj;
 
   return (
@@ -8,8 +11,6 @@ export const Question = ({ questionObj, answer, dispatch }) => {
       <h4>{question}</h4>
       <Options
         options={options}
-        dispatch={dispatch}
-        answer={answer}
         correctOption={correctOption}
       />
     </div>

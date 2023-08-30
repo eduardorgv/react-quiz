@@ -1,11 +1,8 @@
+import { useQuiz } from "../contexts/QuizContext";
 import { useAsignEmoji } from "../hooks/useAsignEmoji";
 
-export const FinishedScreen = ({
-  points,
-  maxPossiblePoints,
-  highscore,
-  dispatch,
-}) => {
+export const FinishedScreen = () => {
+  const { points, maxPossiblePoints, highscore, dispatch } = useQuiz();
   const percentage = (points / maxPossiblePoints) * 100;
   const { emoji } = useAsignEmoji(percentage);
 
